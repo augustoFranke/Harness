@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import { PROVIDERS } from "./providers";
 import type { Provider } from "./providers";
+import type { Message } from "../types";
 
 export async function* streamCompletion(
   model: string,
@@ -35,5 +36,12 @@ export async function* streamCompletion(
     stream: true,
     messages: [],
     tools: [],
+  });
+}
+
+export function convertMessages(messages: Message[]): unknown[] {
+  return messages.map((message) => {
+    switch (message.role) {
+    }
   });
 }

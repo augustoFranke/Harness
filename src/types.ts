@@ -1,62 +1,62 @@
-type TextContent = {
+export type TextContent = {
   type: "text";
   text: string;
 };
-type ThinkingContent = {
+export type ThinkingContent = {
   type: "thinking";
   thinking: string;
 };
-type ToolCallContent = {
+export type ToolCallContent = {
   type: "toolCall";
   id: string;
   name: string;
   arguments: Record<string, unknown>;
 };
-type ImageContent = {
+export type ImageContent = {
   type: "image";
   data: string;
   mimeType: string;
 };
-type Usage = {
+export type Usage = {
   input: number;
   output: number;
   totalTokens: number;
 };
-type StopReason = "stop" | "length" | "toolUse" | "error";
-type UserMessage = {
+export type StopReason = "stop" | "length" | "toolUse" | "error";
+export type UserMessage = {
   role: "user";
   content: string | (TextContent | ImageContent)[];
 };
-type AssistantMessage = {
+export type AssistantMessage = {
   role: "assistant";
   content: (TextContent | ThinkingContent | ToolCallContent)[];
   usage: Usage;
   stopReason: StopReason;
 };
-type ToolResultMessage = {
+export type ToolResultMessage = {
   role: "toolResult";
   toolCallId: string;
   toolName: string;
   content: string;
   isError: boolean;
 };
-type Message = UserMessage | AssistantMessage | ToolResultMessage;
-type CompactionSummary = {
+export type Message = UserMessage | AssistantMessage | ToolResultMessage;
+export type CompactionSummary = {
   role: "comapactionSummary";
   summary: string;
 };
-type AgentMessage = Message | CompactionSummary;
-type ToolDefinition = {
+export type AgentMessage = Message | CompactionSummary;
+export type ToolDefinition = {
   name: string;
   description: string;
   parameters: unknown;
 };
-type Context = {
+export type Context = {
   systemPrompt: string;
   messages: Message[];
   tools: ToolDefinition[];
 };
-type AgentEvent =
+export type AgentEvent =
   | { type: "agent_start" }
   | { type: "agent_end"; messages: AgentMessage[] }
   | { type: "text_delta"; delta: string }
@@ -84,7 +84,7 @@ type AgentEvent =
       isError: boolean;
     }
   | { type: "error"; message: string };
-type LLMStreamEvent =
+export type LLMStreamEvent =
   | { type: "text_delta"; delta: string }
   | { type: "thinking_delta"; delta: string }
   | { type: "toolcall_start"; index: number; id: string; name: string }
@@ -98,15 +98,15 @@ type LLMStreamEvent =
     }
   | { type: "done"; message: AssistantMessage }
   | { type: "error"; error: Error };
-type LLMClient = {
+export type LLMClient = {
   stream: (context: Context) => AsyncIterable<LLMStreamEvent>;
 };
-type ToolResult = {
+export type ToolResult = {
   content: string;
   isError: boolean;
 };
 
-interface Tool {
+export interface Tool {
   name: string;
   description: string;
   parameters: unknown;
